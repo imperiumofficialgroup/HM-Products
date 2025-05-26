@@ -1,0 +1,608 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>HM Projects - Our Work Gallery</title>
+  <meta name="description" content="Go through the projects photos completed by the HM Products">
+  <link rel="stylesheet" href="index.css"/>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.css">
+  <!-- Swiper CSS -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css"/>
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+  <style>
+    /* Gallery Page Styles */
+    :root {
+      --primary: #0066cc;
+      --primary-dark: #0055aa;
+      --light: #f9fbfd;
+      --dark: #222;
+      --dark-light: #666;
+      --white: #fff;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Poppins', sans-serif;
+      line-height: 1.6;
+      color: var(--dark);
+      background-color: var(--light);
+    }
+
+    .container {
+      width: 100%;
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 20px;
+    }
+
+    /* Header Styles */
+    .gallery-header {
+      background: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), url('images/gallery-banner.jpg') center/cover no-repeat;
+      color: var(--white);
+      text-align: center;
+      padding: 100px 0;
+      margin-bottom: 60px;
+    }
+
+    .gallery-header h1 {
+      font-size: 2.8rem;
+      margin-bottom: 20px;
+    }
+
+    .gallery-header p {
+      font-size: 1.2rem;
+      max-width: 700px;
+      margin: 0 auto;
+    }
+
+    /* Gallery Filter */
+    .gallery-filter {
+      text-align: center;
+      margin-bottom: 40px;
+      margin-top: 50px;
+    }
+
+    .filter-btn {
+      background: none;
+      border: none;
+      color: var(--dark);
+      font-size: 1rem;
+      font-weight: 600;
+      padding: 10px 20px;
+      margin: 0 5px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      border-radius: 4px;
+    }
+
+    .filter-btn:hover, .filter-btn.active {
+      background-color: var(--primary);
+      color: var(--white);
+    }
+
+    /* Gallery Grid */
+    .gallery-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+      gap: 25px;
+      margin-bottom: 60px;
+    }
+
+    .gallery-item {
+      position: relative;
+      border-radius: 8px;
+      overflow: hidden;
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+      aspect-ratio: 4/3;
+    }
+
+    .gallery-item:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+    }
+
+    .gallery-img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform 0.5s ease;
+    }
+
+    .gallery-item:hover .gallery-img {
+      transform: scale(1.05);
+    }
+
+    .gallery-caption {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      background: rgba(0, 102, 204, 0.8);
+      color: var(--white);
+      padding: 15px;
+      transform: translateY(100%);
+      transition: transform 0.3s ease;
+    }
+
+    .gallery-item:hover .gallery-caption {
+      transform: translateY(0);
+    }
+
+    .gallery-caption h3 {
+      font-size: 1.1rem;
+      margin-bottom: 5px;
+    }
+
+    .gallery-caption p {
+      font-size: 0.9rem;
+      opacity: 0.9;
+    }
+
+    /* Lightbox Modal */
+    .lightbox {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0, 0, 0, 0.9);
+      z-index: 1000;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .lightbox-content {
+      position: relative;
+      max-width: 90%;
+      max-height: 90%;
+    }
+
+    .lightbox-img {
+      max-width: 100%;
+      max-height: 80vh;
+      border-radius: 8px;
+    }
+
+    .lightbox-caption {
+      color: var(--white);
+      text-align: center;
+      margin-top: 15px;
+    }
+
+    .close-btn {
+      position: absolute;
+      top: 20px;
+      right: 20px;
+      color: var(--white);
+      font-size: 2rem;
+      cursor: pointer;
+    }
+
+    .nav-btn {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      color: var(--white);
+      font-size: 2rem;
+      cursor: pointer;
+      background: rgba(0, 0, 0, 0.5);
+      width: 50px;
+      height: 50px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      border-radius: 50%;
+    }
+
+    .prev-btn {
+      left: 20px;
+    }
+
+    .next-btn {
+      right: 20px;
+    }
+
+    /* Responsive Styles */
+    @media (max-width: 992px) {
+      .gallery-grid {
+        grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+      }
+    }
+
+    @media (max-width: 768px) {
+      .gallery-header {
+        padding: 80px 0;
+      }
+      
+      .gallery-header h1 {
+        font-size: 2.2rem;
+      }
+      
+      .filter-btn {
+        padding: 8px 15px;
+        margin: 0 3px;
+        font-size: 0.9rem;
+      }
+      
+      .gallery-grid {
+        grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+        gap: 15px;
+      }
+    }
+
+    @media (max-width: 576px) {
+      .gallery-header {
+        padding: 60px 0;
+      }
+      
+      .gallery-header h1 {
+        font-size: 1.8rem;
+      }
+      
+      .filter-btn {
+        display: block;
+        width: 100%;
+        margin: 5px 0;
+      }
+      
+      .gallery-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+<body>
+  
+  <!-- Header -->
+  <header class="header">
+    <div class="container">
+      <div class="logo">
+        <span class="hm">HM</span> <span class="projects">Projects</span>
+      </div>
+      <button class="hamburger" aria-label="Menu">
+        <span class="hamburger-line"></span>
+        <span class="hamburger-line"></span>
+        <span class="hamburger-line"></span>
+      </button>
+      <nav class="navbar">
+        <ul class="nav-menu">
+          <li class="nav-item"><a href="index.html" class="nav-link active">Home</a></li>
+          <li class="nav-item"><a href="about.html" class="nav-link">About Us</a></li>
+          <li class="nav-item"><a href="services.html" class="nav-link">Services</a></li>
+          <li class="nav-item"><a href="projects.html" class="nav-link">Projects</a></li>
+          <li class="nav-item"><a href="gallery.html" class="nav-link">Gallery</a></li>
+          <li class="nav-item"><a href="contact.html" class="nav-link">Contact Us</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <!-- Gallery Content -->
+  <main class="container">
+    <!-- Gallery Filter -->
+    <div class="gallery-filter">
+      <button class="filter-btn active" data-filter="all">All Projects</button>
+      <button class="filter-btn" data-filter="electrical">Electrical</button>
+      <button class="filter-btn" data-filter="mechanical">Mechanical</button>
+      <button class="filter-btn" data-filter="civil">Civil</button>
+      <button class="filter-btn" data-filter="security">Security</button>
+    </div>
+
+    <!-- Gallery Grid -->
+    <div class="gallery-grid">
+      <!-- Electrical Projects -->
+      <div class="gallery-item" data-category="electrical">
+        <img src="images/gallery/electrical-1.jpg" alt="Electrical Panel Installation" class="gallery-img">
+        <div class="gallery-caption">
+          <h3>Electrical Panel Installation</h3>
+          <p>Commercial building power distribution</p>
+        </div>
+      </div>
+
+      <div class="gallery-item" data-category="electrical">
+        <img src="images/gallery/electrical-2.jpg" alt="Lighting Installation" class="gallery-img">
+        <div class="gallery-caption">
+          <h3>Lighting Installation</h3>
+          <p>LED lighting solution for office space</p>
+        </div>
+      </div>
+
+      <!-- Mechanical Projects -->
+      <div class="gallery-item" data-category="mechanical">
+        <img src="images/gallery/mechanical-1.jpg" alt="HVAC Installation" class="gallery-img">
+        <div class="gallery-caption">
+          <h3>HVAC System Installation</h3>
+          <p>Central air conditioning for hospital</p>
+        </div>
+      </div>
+
+      <div class="gallery-item" data-category="mechanical">
+        <img src="images/gallery/mechanical-2.jpg" alt="Ducting Work" class="gallery-img">
+        <div class="gallery-caption">
+          <h3>Ducting Work</h3>
+          <p>Commercial building ventilation</p>
+        </div>
+      </div>
+
+      <!-- Civil Projects -->
+      <div class="gallery-item" data-category="civil">
+        <img src="images/gallery/civil-1.jpg" alt="Concrete Work" class="gallery-img">
+        <div class="gallery-caption">
+          <h3>Concrete Construction</h3>
+          <p>Residential building foundation</p>
+        </div>
+      </div>
+
+      <div class="gallery-item" data-category="civil">
+        <img src="images/gallery/civil-2.jpg" alt="Tiling Work" class="gallery-img">
+        <div class="gallery-caption">
+          <h3>Floor Tiling</h3>
+          <p>Commercial space flooring</p>
+        </div>
+      </div>
+
+      <!-- Security Projects -->
+      <div class="gallery-item" data-category="security">
+        <img src="images/gallery/security-1.jpg" alt="CCTV Installation" class="gallery-img">
+        <div class="gallery-caption">
+          <h3>CCTV Installation</h3>
+          <p>24/7 surveillance system</p>
+        </div>
+      </div>
+
+      <div class="gallery-item" data-category="security">
+        <img src="images/gallery/security-2.jpg" alt="Access Control" class="gallery-img">
+        <div class="gallery-caption">
+          <h3>Access Control System</h3>
+          <p>Biometric entry system</p>
+        </div>
+      </div>
+
+      <!-- Add more gallery items as needed -->
+      <div class="gallery-item" data-category="electrical">
+        <img src="images/gallery/electrical-3.jpg" alt="Wiring Work" class="gallery-img">
+        <div class="gallery-caption">
+          <h3>Structured Wiring</h3>
+          <p>Office building electrical wiring</p>
+        </div>
+      </div>
+
+      <div class="gallery-item" data-category="civil">
+        <img src="images/gallery/civil-3.jpg" alt="Painting Work" class="gallery-img">
+        <div class="gallery-caption">
+          <h3>Exterior Painting</h3>
+          <p>Residential building facade</p>
+        </div>
+      </div>
+
+      <div class="gallery-item" data-category="mechanical">
+        <img src="images/gallery/mechanical-3.jpg" alt="Ventilation" class="gallery-img">
+        <div class="gallery-caption">
+          <h3>Ventilation System</h3>
+          <p>Industrial exhaust system</p>
+        </div>
+      </div>
+
+      <div class="gallery-item" data-category="security">
+        <img src="images/gallery/security-3.jpg" alt="Fire Alarm" class="gallery-img">
+        <div class="gallery-caption">
+          <h3>Fire Alarm System</h3>
+          <p>Commercial building safety</p>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <!-- Lightbox Modal -->
+  <div class="lightbox" id="lightbox">
+    <span class="close-btn">&times;</span>
+    <span class="nav-btn prev-btn">&lt;</span>
+    <span class="nav-btn next-btn">&gt;</span>
+    <div class="lightbox-content">
+      <img src="" alt="" class="lightbox-img">
+      <div class="lightbox-caption">
+        <h3></h3>
+        <p></p>
+      </div>
+    </div>
+  </div>
+
+    <!-- CTA Section -->
+  <section class="cta-section">
+    <div class="container">
+      <div class="cta-content" data-aos="fade-up">
+        <h2>Ready to Start Your Project?</h2>
+        <p>Contact us today for a free consultation and quote. Our team is ready to bring your vision to life with quality craftsmanship and professional service.</p>
+        <div class="cta-buttons">
+          <a href="contact.html" class="btn btn-primary">Get in Touch</a>
+          <a href="tel:+919702185549" class="btn btn-secondary">
+            <i class="fas fa-phone"></i> Call Now
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- WhatsApp Float -->
+  <a href="https://wa.me/919702185549" class="whatsapp-float" target="_blank" aria-label="Chat on WhatsApp">
+    <i class="fab fa-whatsapp"></i>
+  </a>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-col footer-about">
+          <h3 class="footer-logo"><span>HM</span> Projects</h3>
+          <p>Providing reliable electrical, mechanical and civil solutions since 2019. Quality-focused, safety-conscious, and committed to client satisfaction.</p>
+          <div class="footer-social">
+            <a href="#" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
+            <a href="#" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+            <a href="#" aria-label="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
+            <a href="#" aria-label="YouTube"><i class="fab fa-youtube"></i></a>
+          </div>
+        </div>
+        <div class="footer-col footer-links">
+          <h4>Quick Links</h4>
+          <ul>
+            <li><a href="index.html"><i class="fas fa-chevron-right"></i> Home</a></li>
+            <li><a href="about.html"><i class="fas fa-chevron-right"></i> About Us</a></li>
+            <li><a href="services.html"><i class="fas fa-chevron-right"></i> Services</a></li>
+            <li><a href="projects.html"><i class="fas fa-chevron-right"></i> Projects</a></li>
+            <li><a href="gallery.html"><i class="fas fa-chevron-right"></i>Gallery</a></li>
+            <li><a href="contact.html"><i class="fas fa-chevron-right"></i> Contact</a></li>
+          </ul>
+        </div>
+        <div class="footer-col footer-services">
+          <h4>Our Services</h4>
+          <ul>
+            <li><a href="services.html"><i class="fas fa-chevron-right"></i> Electrical</a></li>
+            <li><a href="services.html"><i class="fas fa-chevron-right"></i> Mechanical (HVAC)</a></li>
+            <li><a href="services.html"><i class="fas fa-chevron-right"></i> Security Systems</a></li>
+            <li><a href="services.html"><i class="fas fa-chevron-right"></i> General Work</a></li>
+          </ul>
+        </div>
+        <div class="footer-col footer-contact">
+          <h4>Contact Us</h4>
+          <div class="contact-item">
+            <i class="fas fa-map-marker-alt"></i>
+            <span>Office no. 1010, Gokhale Business Bay, Paschimanagari, Kothrud-411038</span>
+          </div>
+          <div class="contact-item">
+            <i class="fas fa-phone-alt"></i>
+            <span>+91 9702185549</span>
+          </div>
+          <div class="contact-item">
+            <i class="fas fa-envelope"></i>
+            <span>info@hmprojects.com</span>
+          </div>
+          <div class="contact-item">
+            <i class="fas fa-clock"></i>
+            <span>Mon-Sat: 9:00 AM - 6:00 PM</span>
+          </div>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <p>&copy; 2025 HM Projects. All Rights Reserved.</p>
+        <p>Site developed and deployed by <a href="https://imperiumofficial.vercel.app/">IMPERIUM</a></p>
+        <div class="footer-legal">
+          <p><a href="privacy.html">Privacy Policy</a> | <a href="terms.html">Terms of Service</a></p>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Back to Top Button -->
+  <a href="#" class="back-to-top" aria-label="Back to top">
+    <i class="fas fa-arrow-up"></i>
+  </a>
+
+  <!-- Scripts -->
+  <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.js"></script>
+  <script src="index.js"></script>
+
+  <script>
+    // Gallery Filter Functionality
+    document.addEventListener('DOMContentLoaded', function() {
+      const filterBtns = document.querySelectorAll('.filter-btn');
+      const galleryItems = document.querySelectorAll('.gallery-item');
+
+      filterBtns.forEach(btn => {
+        btn.addEventListener('click', () => {
+          // Update active button
+          filterBtns.forEach(btn => btn.classList.remove('active'));
+          btn.classList.add('active');
+
+          const filter = btn.dataset.filter;
+
+          // Filter items
+          galleryItems.forEach(item => {
+            if (filter === 'all' || item.dataset.category === filter) {
+              item.style.display = 'block';
+            } else {
+              item.style.display = 'none';
+            }
+          });
+        });
+      });
+
+      // Lightbox Functionality
+      const lightbox = document.getElementById('lightbox');
+      const lightboxImg = lightbox.querySelector('.lightbox-img');
+      const lightboxCaption = lightbox.querySelector('.lightbox-caption h3');
+      const lightboxDesc = lightbox.querySelector('.lightbox-caption p');
+      const closeBtn = lightbox.querySelector('.close-btn');
+      const prevBtn = lightbox.querySelector('.prev-btn');
+      const nextBtn = lightbox.querySelector('.next-btn');
+      let currentIndex = 0;
+
+      // Open lightbox
+      galleryItems.forEach((item, index) => {
+        item.addEventListener('click', () => {
+          currentIndex = index;
+          updateLightbox();
+          lightbox.style.display = 'flex';
+          document.body.style.overflow = 'hidden';
+        });
+      });
+
+      // Close lightbox
+      closeBtn.addEventListener('click', () => {
+        lightbox.style.display = 'none';
+        document.body.style.overflow = 'auto';
+      });
+
+      // Navigation
+      prevBtn.addEventListener('click', () => {
+        currentIndex = (currentIndex - 1 + galleryItems.length) % galleryItems.length;
+        updateLightbox();
+      });
+
+      nextBtn.addEventListener('click', () => {
+        currentIndex = (currentIndex + 1) % galleryItems.length;
+        updateLightbox();
+      });
+
+      // Keyboard navigation
+      document.addEventListener('keydown', (e) => {
+        if (lightbox.style.display === 'flex') {
+          if (e.key === 'Escape') {
+            lightbox.style.display = 'none';
+            document.body.style.overflow = 'auto';
+          } else if (e.key === 'ArrowLeft') {
+            currentIndex = (currentIndex - 1 + galleryItems.length) % galleryItems.length;
+            updateLightbox();
+          } else if (e.key === 'ArrowRight') {
+            currentIndex = (currentIndex + 1) % galleryItems.length;
+            updateLightbox();
+          }
+        }
+      });
+
+      function updateLightbox() {
+        const item = galleryItems[currentIndex];
+        const img = item.querySelector('.gallery-img');
+        const caption = item.querySelector('.gallery-caption h3');
+        const desc = item.querySelector('.gallery-caption p');
+
+        lightboxImg.src = img.src;
+        lightboxCaption.textContent = caption.textContent;
+        lightboxDesc.textContent = desc.textContent;
+      }
+    });
+  </script>
+</body>
+</html>
