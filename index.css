@@ -771,8 +771,8 @@ img {
   position: fixed;
   bottom: 30px;
   right: 30px;
-  width: 60px;
-  height: 60px;
+  width: 50px;
+  height: 50px;
   background-color: #25D366;
   color: var(--white);
   border-radius: 50%;
@@ -931,7 +931,7 @@ img {
 .back-to-top {
   position: fixed;
   bottom: 30px;
-  right: 100px;
+  right: 80px;
   width: 50px;
   height: 50px;
   background-color: var(--primary);
@@ -987,7 +987,7 @@ img {
   .hamburger {
     display: block;
     z-index: 1001;
-    margin-right: -100px;
+    margin-right: -150px;
   }
   
   .hamburger.active .hamburger-line:nth-child(1) {
@@ -1052,8 +1052,8 @@ img {
   }
   
   .back-to-top {
-    right: 30px;
-    bottom: 90px;
+    right: 10px;
+    bottom: 100px;
   }
 }
 
